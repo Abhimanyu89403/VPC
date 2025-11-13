@@ -19,8 +19,16 @@ resource "aws_internet_gateway" "igw" {
         value = "my_igw_fe"
     }
 }
+resource "aws_eip" "eip" {
+    vpc = true
+    tags = {
+        key = "Name"
+        value = "VPC_EIP"
+    }
+}
 resource "aws_nat_gateway" "nat_gw" {
     subnet_id = aws_subnet.public_subnet.id
+    allocation_id = aws_eip.eip.id
     tags = {
         key = "Name"
         value = "nat_gw_be"
