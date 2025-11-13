@@ -21,7 +21,6 @@ resource "aws_internet_gateway" "igw" {
 }
 resource "aws_nat_gateway" "nat_gw" {
     subnet_id = aws_subnet.public_subnet.id
-    elastic_ip_allocation = true
     tags = {
         key = "Name"
         value = "nat_gw_be"
