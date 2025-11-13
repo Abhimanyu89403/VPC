@@ -20,7 +20,7 @@ resource "aws_internet_gateway" "igw" {
     }
 }
 resource "aws_eip" "eip" {
-    vpc = true
+    domain = VPC
     tags = {
         key = "Name"
         value = "VPC_EIP"
