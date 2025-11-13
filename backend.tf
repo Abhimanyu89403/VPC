@@ -5,6 +5,5 @@ terraform {
         region = "ap-south-1"
         encrypt = true
         dynamodb_table = "VPC_state_lock"
-        encrypt = true
     }
 }
