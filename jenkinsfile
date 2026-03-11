@@ -1,0 +1,58 @@
+pipeline {
+    agent any
+    environment {
+        AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
+        AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
+        AWS_DEFAULT_EGION = 'ap-south-1'
+    }
+
+    stages {
+        stage ('checkout code'){
+            steps {
+                git(
+                    branch: 'main',
+                    url: 'https://github.com/Abhimanyu89403/VPC.git'
+                )
+            }
+        }
+        stage ('initiate terraform') {
+            steps {
+                sh 'terraform init'
+            }
+        }
+        stage ('validate terraform'){
+            steps {
+                sh 'terraform validate'
+            }
+        }
+        stage ('terraform fmt check'){
+            steps {
+                sh 'terraform fmt'
+            }
+        }
+        stage ('create a state file'){
+            steps{
+                sh 'terraform plan'
+                echo "creating/matching the state"
+            }
+        }
+        stage ('Manual approval'){
+            steps{
+                input message: 'Do you want to make changes', ok: 'Apply'
+            }
+        }
+        stage ('apply the infrastructure'){
+            steps{
+                sh 'terraform apply -auto-approve tfplan'
+            }
+        }
+    }
+    post {
+        success {
+            echo "Infrastructure created"
+        }
+        failure {
+            echo "deployment failed"
+        }
+    }
+}
