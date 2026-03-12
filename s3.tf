@@ -22,6 +22,7 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
                 "s3:PutObject",
                 "s3:ListObject"
             ]
+            Resource = "arn:aws:s3:::abhi-mystatebucket-vpc-backend-state-file/*"
         }
     ])
 }
@@ -32,11 +33,11 @@ resource "aws_s3_bucket_versioning" "bucket_versioning" {
     }
 }
 
-resource "aws_s3_bucket_server_side_encryption" "bucket_encryption" {
+resource "aws_s3_bucket_server_side_encryption_configuration" "bucket_encryption" {
     bucket = aws_s3_bucket.my_bucket.id
 
     rule {
-        apply_server_side_encryption {
+        apply_server_side_encryption_by_default {
             sse_algorithm = "AES256"
         }
     }
