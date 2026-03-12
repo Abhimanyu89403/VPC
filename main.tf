@@ -70,7 +70,7 @@ resource "aws_route_table_association" "public_rta" {
 resource "aws_subnet" "private_subnet" {
   vpc_id            = aws_vpc.my_vpc.id
   availability_zone = "ap-south-1b"
-  cidr_block        = "10.0.2.0/24"
+  cidr_block        = "10.0.3.0/24"
   tags = {
     key   = "Name"
     value = "my_private_subnet"
